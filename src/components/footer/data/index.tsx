@@ -1,32 +1,37 @@
-import { FC } from "react"
+import { ReactElement } from "react"
 
-import DefaultComputer from "./default/Computer"
-import DefaultLaptop from "./default/Laptop"
-import DefaultMobile from "./default/Mobile"
-import DefaultTablet from "./default/Tablet"
-import identifyDevice from "../../../utils/identifyDevice"
+import identifyDevice from "src/utils/identifyDevice"
+import GetDefaultFooters, { IDefaultFooters } from "./default"
+import DefaultFooterProps from "./default/props"
 
-interface IDeviceFooters<Props> {
-	Mobile: FC<Props>
-	Tablet: FC<Props>
-	Laptop: FC<Props>
-	Computer: FC<Props>
+interface IFooters {
+	default: IDefaultFooters
 }
 
-export interface IFooters {
-	default: IDeviceFooters<Record<never, never>>
+interface IFootersProps {
+	default: DefaultFooterProps
 }
 
-const footers = {
-	default: {
-		Mobile: <DefaultMobile />,
-		Tablet: <DefaultTablet />,
-		Laptop: <DefaultLaptop />,
-		Computer: <DefaultComputer />,
-	},
+type IGetFooters = <K extends keyof IFooters>(
+	props: IFootersProps[K],
+) => IFooters
+
+const GetFooters: IGetFooters = (props) => ({
+	default: GetDefaultFooters(props),
+})
+
+export interface GetFooterProps {
+	device_width: number
+	kind: keyof IFooters
+	options: IFootersProps[GetFooterProps["kind"]]
 }
 
-const getFooter = (width: number, kind: keyof IFooters): JSX.Element =>
-	footers[kind][identifyDevice(width)]
+type IGetFooter = (props: GetFooterProps) => ReactElement<typeof props.options>
 
-export default getFooter
+const GetFooter: IGetFooter = (props) => {
+	return GetFooters<typeof props.kind>(props.options)[props.kind][
+		identifyDevice(props.device_width)
+	]
+}
+
+export default GetFooter

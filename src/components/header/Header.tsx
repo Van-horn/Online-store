@@ -1,15 +1,18 @@
 import { FC, memo } from "react"
-import useDeviceWidth from "../../hooks/deviceWidth"
-import getHeader, { IHeaders } from "./data"
 
-export interface HeaderProps {
-	kind?: keyof IHeaders
-}
+import useDeviceWidth from "../../hooks/deviceWidth"
+import GetHeader, { GetHeaderProps } from "./data"
+
+export type HeaderProps = Partial<Omit<GetHeaderProps, "device_width">>
 
 const Header: FC<HeaderProps> = memo((props) => {
-	const { deviceWidth } = useDeviceWidth(window.innerWidth)
+	const { device_width } = useDeviceWidth()
 
-	return getHeader(deviceWidth, props?.kind ?? "default")
+	return GetHeader({
+		device_width,
+		kind: props?.kind ?? "default",
+		options: props?.options ?? {},
+	})
 })
 
 export default Header

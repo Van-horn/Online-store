@@ -31,7 +31,7 @@ const LogInForm: FC<Record<never, never>> = () => {
 	const passwordEyeHandler = () => setPasswordEye((prev) => !prev)
 
 	return (
-		<main className={styles.main}>
+		<main>
 			<form className={styles.form}>
 				<span className={styles.formName}>LogIn</span>
 				<div className={styles.inputs}>
@@ -71,7 +71,7 @@ const LogInForm: FC<Record<never, never>> = () => {
 				<div
 				//  className={styles.forgotAlternative}
 				>
-					<span className={styles.lableForgot}>Forgot password :</span>
+					<span>Forgot password :</span>
 					<Link
 						to="/authorization/forgot_password"
 						className={styles.refForgot}>

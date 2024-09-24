@@ -1,16 +1,18 @@
 import { FC, memo } from "react"
 
 import useDeviceWidth from "../../hooks/deviceWidth"
-import getFooter, { IFooters } from "./data"
+import GetFooter, { GetFooterProps } from "./data"
 
-export interface FooterProps {
-	kind?: keyof IFooters
-}
+export type FooterProps = Partial<Omit<GetFooterProps, "device_width">>
 
 const Footer: FC<FooterProps> = memo((props) => {
-	const { deviceWidth } = useDeviceWidth(window.innerWidth)
+	const { device_width } = useDeviceWidth()
 
-	return getFooter(deviceWidth, props?.kind ?? "default")
+	return GetFooter({
+		device_width,
+		kind: props?.kind ?? "default",
+		options: props?.options ?? {},
+	})
 })
 
 export default Footer

@@ -76,7 +76,7 @@ const ForgotPasswordForm: FC<Record<never, never>> = () => {
 				<div
 				//  className={styles.forgotAlternative}
 				>
-					<span className={styles.lableForgot}>Back to :</span>
+					<span>Back to :</span>
 					<Link to="/authorization/logIn" className={styles.refForgot}>
 						LogIn
 					</Link>

@@ -1,32 +1,37 @@
-import { FC } from "react"
+import { ReactElement } from "react"
 
-import DefaultComputer from "./default/Computer"
-import DefaultLaptop from "./default/Laptop"
-import DefaultMobile from "./default/Mobile"
-import DefaultTablet from "./default/Tablet"
-import identifyDevice from "../../../utils/identifyDevice"
+import identifyDevice from "src/utils/identifyDevice"
+import GetDefaultHeaders, { IDefaultHeaders } from "./default"
+import DefaultHeaderProps from "./default/props"
 
-interface IDeviceHeaders<Props> {
-	Mobile: FC<Props>
-	Tablet: FC<Props>
-	Laptop: FC<Props>
-	Computer: FC<Props>
+interface IHeaders {
+	default: IDefaultHeaders
 }
 
-export interface IHeaders {
-	default: IDeviceHeaders<Record<never, never>>
+interface IHeadersProps {
+	default: DefaultHeaderProps
 }
 
-const headers = {
-	default: {
-		Mobile: <DefaultMobile />,
-		Tablet: <DefaultTablet />,
-		Laptop: <DefaultLaptop />,
-		Computer: <DefaultComputer />,
-	},
+type IGetHeaders = <K extends keyof IHeaders>(
+	props: IHeadersProps[K],
+) => IHeaders
+
+const GetHeaders: IGetHeaders = (props) => ({
+	default: GetDefaultHeaders(props),
+})
+
+export interface GetHeaderProps {
+	device_width: number
+	kind: keyof IHeaders
+	options: IHeadersProps[GetHeaderProps["kind"]]
 }
 
-const getHeader = (width: number, kind: keyof IHeaders): JSX.Element =>
-	headers[kind][identifyDevice(width)]
+type IGetHeader = (props: GetHeaderProps) => ReactElement<typeof props.options>
 
-export default getHeader
+const GetHeader: IGetHeader = (props) => {
+	return GetHeaders<typeof props.kind>(props.options)[props.kind][
+		identifyDevice(props.device_width)
+	]
+}
+
+export default GetHeader

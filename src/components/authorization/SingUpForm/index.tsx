@@ -90,7 +90,7 @@ const SingUpForm: FC<Record<never, never>> = () => {
 				<div
 				//  className={styles.forgotAlternative}
 				>
-					<span className={styles.lableForgot}>Forgot password :</span>
+					<span>Forgot password :</span>
 					<Link
 						to="/authorization/forgot_password"
 						className={styles.refForgot}>

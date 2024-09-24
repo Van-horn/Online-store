@@ -1,11 +1,10 @@
-export type Devices = "Computer" | "Laptop" | "Tablet" | "Mobile"
+export type Devices = "computer" | "laptop" | "tablet" | "mobile"
 
 const identifyDevice = (width: number): Devices => {
-	if (width <= 425) return "Mobile"
-	if (width > 425 && width <= 768) return "Tablet"
-	if (width > 768 && width <= 1440) return "Laptop"
-	if (width > 1440) return "Computer"
-	return "Computer"
+	if (width <= 426) return "mobile"
+	if (width <= 769) return "tablet"
+	if (width <= 1441) return "laptop"
+	return "computer"
 }
 
 export default identifyDevice

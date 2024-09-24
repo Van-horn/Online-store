@@ -3,16 +3,18 @@ import { useState, useEffect } from "react"
 import identifyDevice from "../utils/identifyDevice"
 
 interface IuseDeviceWidth {
-	deviceWidth: number
+	device_width: number
 }
 
-const useDeviceWidth = (initialWidth: number): IuseDeviceWidth => {
-	const [deviceWidth, setDeviceWidth] = useState<number>(initialWidth)
+const useDeviceWidth = (): IuseDeviceWidth => {
+	const [device_width, setDeviceWidth] = useState<number>(window.screen.width)
 
 	useEffect(() => {
 		const handleResize = () => {
-			if (identifyDevice(deviceWidth) !== identifyDevice(window.innerWidth))
-				setDeviceWidth(window.innerWidth)
+			if (
+				identifyDevice(device_width) !== identifyDevice(window.screen.width)
+			)
+				setDeviceWidth(window.screen.width)
 		}
 
 		window.addEventListener("resize", handleResize)
@@ -20,9 +22,9 @@ const useDeviceWidth = (initialWidth: number): IuseDeviceWidth => {
 		return () => {
 			window.removeEventListener("resize", handleResize)
 		}
-	}, [deviceWidth])
+	}, [device_width])
 
-	return { deviceWidth }
+	return { device_width }
 }
 
 export default useDeviceWidth
