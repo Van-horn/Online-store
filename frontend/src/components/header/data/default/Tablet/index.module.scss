@@ -1,0 +1,14 @@
+@import "../../../../../sass/mixins/flexbox.scss";
+@import "../../../../../sass/variables/index.scss";
+
+.header{
+    padding: 0.5em;
+    background-color: var(--light-bg);
+    font-size: clamp(2vw, 4vw, 5vw);
+    @include full-center_j_d(space-between);
+}
+.search{
+    width: 73%;
+    @include full-center_j_d(space-between);
+}   
+

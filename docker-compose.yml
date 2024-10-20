@@ -1,0 +1,144 @@
+version: '3'
+
+networks:
+  microservices-network:
+    driver: bridge
+  nginx-network:
+    driver: bridge
+  frt-network:
+    driver: bridge
+
+
+services:
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - frt-network
+    # depends_on:
+    #   - nginx
+
+
+  # nginx:
+  #   build:
+  #     context: ./backend/microservices/host-nginx
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #   depends_on:
+  #     - authorization-microservice
+  #   networks:
+  #     - nginx-network
+  #     - frt-network
+
+
+  # authorization-microservice:
+  #   build:
+  #     context: ./backend/microservices/authorization/authorization-microservice
+  #     dockerfile: Dockerfile
+  #   depends_on:
+  #     - tokens-microservice
+  #     - master-server
+  #     - slave-server
+  #   networks:
+  #      - microservices-network
+  #      - nginx-network
+      
+  # postgres:
+  #   build:
+  #     context: ./backend/microservices/DB/postgres
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - postgres-data:/var/lib/postgresql/data
+  #   networks:
+  #     - microservices-network
+
+  # master-server:
+  #   build:
+  #     context: ./backend/microservices/DB/master-server
+  #     dockerfile: Dockerfile
+  #   depends_on:
+  #     - postgres
+  #   networks:
+  #     - microservices-network
+      
+
+  # slave-server:
+  #   build:
+  #     context: ./backend/microservices/DB/slave-server
+  #     dockerfile: Dockerfile
+  #   depends_on:
+  #     - postgres
+  #     - master-server
+  #   networks:
+  #     - microservices-network
+      
+
+  # tokens-microservice:
+  #   build:
+  #     context: ./backend/microservices/authorization/tokens-microservice
+  #     dockerfile: Dockerfile
+  #   networks:
+  #     - microservices-network
+      
+
+
+
+      
+    # depends_on:
+    #   - elasticsearch
+
+  # elasticsearch:
+  #   build:
+  #     context: ./backend/microservices/monitoring/logs/elasticsearch
+  #     dockerfile: Dockerfile
+  #   # ports:
+  #   #   - 9200:9200
+  #   networks:
+  #     - microservices-network
+
+
+  # kibana:
+  #   build:
+  #     context: ./backend/microservices/monitoring/logs/kibana
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 5601:5601
+  #   depends_on:
+  #     - microservices-network
+  #   networks:
+  #     
+
+
+  # prometheus:
+  #   build:
+  #     context: ./backend/microservices/monitoring/metrics/prometheus
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 9090:9090
+  #   networks:
+  #     - microservices-network
+
+
+  # grafana:
+  #   build:
+  #     context: ./backend/microservices/monitoring/metrics/grafana
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 9091:3000
+  #   depends_on:
+  #     - prometheus
+  #   networks:
+  #     - microservices-network
+
+
+volumes:
+  # esdata:
+  postgres-data:
+
+

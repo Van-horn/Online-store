@@ -1,0 +1,31 @@
+@import "../../../../../../sass/variables/index.scss";
+@import "../../../../../../sass/mixins/flexbox.scss";
+
+.header{
+    position: absolute;
+    top:0;
+    left: 0;
+    padding: 0.7em;
+    min-height: 100%;
+    background-color: var(--light-bg);
+    font-size: clamp(2.5vw, 4vw, 5vw);
+    @include full-center_j_d(initial, column);
+}
+
+
+
+.searchAndExit{
+    width: 100%;
+    position: sticky;
+    top: 0;
+    @include full-center_j_d(space-between);
+}
+
+
+.search{
+    width: 83%;
+    @include full-center_j_d(space-between);
+}   
+
+
+
